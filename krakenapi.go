@@ -135,27 +135,27 @@ func (api *KrakenAPI) Time() (*TimeResponse, error) {
 }
 
 // Assets returns the servers available assets
-func (api *KrakenAPI) Assets() (*AssetsResponse, error) {
+func (api *KrakenAPI) Assets() (AssetsResponse, error) {
 	resp, err := api.queryPublic("Assets", nil, &AssetsResponse{})
 	if err != nil {
 		return nil, err
 	}
-
-	return resp.(*AssetsResponse), nil
+	result := resp.(*AssetsResponse) 
+	return *result, nil
 }
 
 // AssetPairs returns the servers available asset pairs
-func (api *KrakenAPI) AssetPairs() (*AssetPairsResponse, error) {
+func (api *KrakenAPI) AssetPairs() (AssetPairsResponse, error) {
 	resp, err := api.queryPublic("AssetPairs", nil, &AssetPairsResponse{})
 	if err != nil {
 		return nil, err
 	}
-
-	return resp.(*AssetPairsResponse), nil
+	result := resp.(*AssetPairsResponse)
+	return *result, nil
 }
 
 // Ticker returns the ticker for given comma separated pairs
-func (api *KrakenAPI) Ticker(pairs ...string) (*TickerResponse, error) {
+func (api *KrakenAPI) Ticker(pairs ...string) (TickerResponse, error) {
 	resp, err := api.queryPublic("Ticker", url.Values{
 		"pair": {strings.Join(pairs, ",")},
 	}, &TickerResponse{})
@@ -163,7 +163,8 @@ func (api *KrakenAPI) Ticker(pairs ...string) (*TickerResponse, error) {
 		return nil, err
 	}
 
-	return resp.(*TickerResponse), nil
+	result := resp.(*TickerResponse)
+	return *result, nil
 }
 
 // OHLCWithInterval returns a OHLCResponse struct based on the given pair
@@ -298,13 +299,13 @@ func (api *KrakenAPI) Trades(pair string, since int64) (*TradesResponse, error) 
 }
 
 // Balance returns all account asset balances
-func (api *KrakenAPI) Balance() (*BalanceResponse, error) {
+func (api *KrakenAPI) Balance() (BalanceResponse, error) {
 	resp, err := api.queryPrivate("Balance", url.Values{}, &BalanceResponse{})
 	if err != nil {
 		return nil, err
 	}
-
-	return resp.(*BalanceResponse), nil
+	result := resp.(*BalanceResponse)
+	return *result, nil
 }
 
 // TradeBalance returns trade balance info
@@ -422,7 +423,7 @@ func (api *KrakenAPI) CancelOrder(txid string) (*CancelOrderResponse, error) {
 }
 
 // QueryOrders shows order
-func (api *KrakenAPI) QueryOrders(txids string, args map[string]string) (*QueryOrdersResponse, error) {
+func (api *KrakenAPI) QueryOrders(txids string, args map[string]string) (QueryOrdersResponse, error) {
 	params := url.Values{"txid": {txids}}
 	if value, ok := args["trades"]; ok {
 		params.Add("trades", value)
@@ -436,7 +437,8 @@ func (api *KrakenAPI) QueryOrders(txids string, args map[string]string) (*QueryO
 		return nil, err
 	}
 
-	return resp.(*QueryOrdersResponse), nil
+	result := resp.(*QueryOrdersResponse)
+	return *result, nil
 }
 
 // AddOrder adds new order
