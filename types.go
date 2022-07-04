@@ -88,7 +88,7 @@ type AssetInfo struct {
 }
 
 // BalanceResponse represents the account's balances (list of currencies)
-type BalanceResponse map[string]float64
+type BalanceResponse map[string]string
 
 // TradeBalanceResponse struct used as the response for the TradeBalance method
 type TradeBalanceResponse struct {
